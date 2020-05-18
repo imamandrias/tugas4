@@ -39,9 +39,73 @@ class KalkulatorSederhana extends StatefulWidget {
 }
 
 class _KalkulatorSederhanaState extends State<KalkulatorSederhana> {
+
+  String output="0";
+  String _output="0";
+  double nilai1 = 0.0;
+  double nilai2 = 0.0;
+  String operator="";
+
+  buttonPressed(String buttonText){
+    if(buttonText=="Clear"){
+       output="0";
+       _output="0";
+       nilai1 = 0.0;
+       nilai2 = 0.0;
+       operator="";
+    }else if(buttonText == "/" || buttonText == "x" || buttonText == "-" || buttonText == "+"){
+      nilai1 = double.parse(output);
+      operator = buttonText;
+      _output = "0";
+    }else if(buttonText == "="){
+      nilai2 = double.parse(output);
+      if(operator == "/"){
+        _output = (nilai1 / nilai2).toString();
+      }
+      if(operator == "x"){
+        _output = (nilai1 * nilai2).toString();
+      }
+      if(operator == "-"){
+        _output = (nilai1 - nilai2).toString();
+      }
+      if(operator == "+"){
+        _output = (nilai1 + nilai2).toString();
+      }
+      nilai1 = 0.0;
+      nilai2 = 0.0;
+      operator = "";
+    }else{
+      _output = _output + buttonText;
+    }
+    print(_output);
+    setState(() {
+      output = double.parse(_output).toStringAsFixed(2);
+    });
+
+  }
+
+
+  Widget createButton(String buttonText){
+    return Expanded(
+        child: OutlineButton(
+          child: Text(buttonText,
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold
+            ),
+          ),
+            padding: EdgeInsets.all(24.0),
+            onPressed: ()=>
+            buttonPressed(buttonText)
+
+        ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     // key: _key,
       appBar: AppBar(
         title: Text('Kalkulator Sederhana'),
         backgroundColor: Colors.greenAccent,
@@ -50,145 +114,56 @@ class _KalkulatorSederhanaState extends State<KalkulatorSederhana> {
         children: <Widget>[
           Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              //mainAxisAlignment: MainAxisAlignment.start,
               //mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                SizedBox(height: 200.0),
+                //SizedBox(height: 200.0),
                 AutoSizeText(
-                  "0",
+                  output,
                   style: Theme.of(context).textTheme.display2,
                   maxLines: 1,
+                ),
+                SizedBox(height: 265.0,),
+                Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        createButton("7"),
+                        createButton("8"),
+                        createButton("9"),
+                        createButton("/"),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        createButton("4"),
+                        createButton("5"),
+                        createButton("6"),
+                        createButton("x"),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        createButton("1"),
+                        createButton("2"),
+                        createButton("3"),
+                        createButton("-"),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        createButton("Clear"),
+                        createButton("0"),
+                        createButton("="),
+                        createButton("+"),
+                      ],
+                    )
+                  ],
                 )
               ],
             )
           ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text("7", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text("8", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text("9", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text("X", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 8.0,),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text("4", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text("5", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text("6", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text("-", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 8.0,),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text("1", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text("2", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text("3", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text("+", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 8.0,),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text("C", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text("0", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text(".", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-                RaisedButton(
-                  padding: EdgeInsets.all(25),
-                  color: Colors.grey,
-                  child: Text("=", style: TextStyle(color: Colors.white, fontSize: 25.0),),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          )
+
         ],
       ),
     );
